@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import ReactCalendar from 'react-calendar'
 //help format the calendar date so the generated time slots can start and end at the appropriate hour
 import {add, format} from "date-fns"
+import { DAILY_OPENING, DAILY_CLOSING, APPT_INTERVAL} from 'src/constants/config'
+
 
 interface indexProps {}
 
@@ -17,14 +19,16 @@ const index: FC<indexProps> = ({}) => {
         dateTime: null,
     })
 
+console.log(date.dateTime)
+
     //Function that will create available time slots after a specific calendar date has been chosen. 
 const getSlots = () => {
     if(!date.justDate) return
 
     const { justDate } = date
-    const startingSlot = add(justDate, { hours: 9 })
-    const endingSlot = add(justDate, { hours: 19 })
-    const interval = 45 //time slot length in minutes
+    const startingSlot = add(justDate, { hours: DAILY_OPENING })
+    const endingSlot = add(justDate, { hours: DAILY_CLOSING })
+    const interval = APPT_INTERVAL //time slot length in minutes
 
     const slots = []
     for (let i = startingSlot; i <= endingSlot; i = add(i, {minutes: interval})) {
